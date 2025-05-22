@@ -3,13 +3,16 @@ import dbConfig from '../index';
 
 const MONGO_URL = dbConfig.db.mongoURL;
 
-mongoose.connect(MONGO_URL,{
-  ssl: true,           
-  tlsAllowInvalidCertificates: false
-}).catch(console.error);
+const connectDB = async () => {
+  try {
+    await mongoose.connect(MONGO_URL); 
+    console.log(" MongoDB connected successfully!");
+  } catch (err) {
+    console.error("MongoDB connection error:", err);
+    process.exit(1);
+  }
+};
 
-const db = mongoose.connection;
-
-export default db;
+export default connectDB;
 
 

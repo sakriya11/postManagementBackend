@@ -1,11 +1,12 @@
 import Express from "express";
 import { createServer } from "http";
-import db from "./config/db/db";
 import helmet from "helmet";
 import routes from "./routes";
 import cors from 'cors';
 import  config  from "./config";
 import path from "path";
+import connectDB from "./config/db/db";
+import mongoose from "mongoose";
 
 
 const app = Express();
@@ -24,12 +25,17 @@ app.use(helmet())
 app.use('/api',routes)
 app.use('/uploads', Express.static(path.join(__dirname, '..', 'uploads')));
 
-//db connection
+// Connect to DB
+connectDB();
+
+// Listen for DB events
+const db = mongoose.connection;
+
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
-db.on("close", function () {
-  console.log("DB connection is closed");
+db.on("close", () => {
+  console.log("MongoDB connection closed");
 });
-db.once("open", function () {
+db.once("open", () => {
   console.log("Connected to MongoDB database!!");
 });
 
