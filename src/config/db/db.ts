@@ -5,6 +5,7 @@ const MONGO_URL = dbConfig.db.mongoURL;
 
 mongoose.connect(MONGO_URL,{
     bufferCommands: false,
+    tls: true,
 }).catch(console.error);
 
 const db = mongoose.connection;
