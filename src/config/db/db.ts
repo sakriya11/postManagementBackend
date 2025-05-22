@@ -4,8 +4,8 @@ import dbConfig from '../index';
 const MONGO_URL = dbConfig.db.mongoURL;
 
 mongoose.connect(MONGO_URL,{
-    bufferCommands: false,
-    tls: true,
+  ssl: true,           
+  tlsAllowInvalidCertificates: false
 }).catch(console.error);
 
 const db = mongoose.connection;
